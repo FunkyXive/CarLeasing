@@ -75,16 +75,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-"default": {
-    "ENGINE": "djongo",
-    "CLIENT": {
-        "host": "mongodb+srv://funkyxive:Andr439d@cluster0-h18kl.mongodb.net/<dbname>?retryWrites=true&w=majority",
-        "username": "funkyxive",
-        "password": "Andr439d",
-        "name": "CarLeasing",
-        "authMechanism": "SCRAM-SHA-1",
-    },
-}}
+    "default": {
+        "ENGINE": "djongo",
+        "CLIENT": {
+            "host": "mongodb+srv://funkyxive:Andr439d@cluster0-h18kl.mongodb.net/<dbname>?retryWrites=true&w=majority",
+            "username": "funkyxive",
+            "password": "Andr439d",
+            "name": "CarLeasing",
+            "authMechanism": "SCRAM-SHA-1",
+        },
+    }}
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -122,3 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

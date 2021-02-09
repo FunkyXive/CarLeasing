@@ -11,6 +11,8 @@ def homepage(request):
 def private_leasing(request):
     return render(request=request,
                   template_name='main/private_leasing.html',)
+
+
 def business_leasing(request):
     return render(request=request,
                   template_name='main/business_leasing.html',)

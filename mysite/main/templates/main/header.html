@@ -5,11 +5,13 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
+        {% load static %}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>A/M Leasing</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,17 +19,47 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </head>
     <body>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="/" class="brand-logo">A/M Leasing</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="private_leasing">Private Leasing</a></li>
-                    <li><a href="business_leasing">Business Leasing</a></li>
-                </ul>
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="/" class="brand-logo">A/M Leasing</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="private_leasing">Private Leasing</a></li>
+                        <li><a href="business_leasing">Business Leasing</a></li>
+                    </ul>
+                </div>
+            </nav> 
+        </header>
+        <main>
+            {% block 'content' %}
+            {% endblock 'content' %}
+        </main>
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Footer Content</h5>
+                        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.
+                        </p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </nav> 
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2014 Copyright Text
+                    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+                </div>
+            </div>
+        </footer>
     </body>
-    {% block 'content' %}
-    {% endblock 'content' %}
 </html>
