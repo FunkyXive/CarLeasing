@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from urllib.parse import quote_plus
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'main',
     'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,13 +75,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
+"default": {
+    "ENGINE": "djongo",
+    "CLIENT": {
+        "host": "mongodb+srv://funkyxive:Andr439d@cluster0-h18kl.mongodb.net/<dbname>?retryWrites=true&w=majority",
+        "username": "funkyxive",
+        "password": "Andr439d",
+        "name": "CarLeasing",
+        "authMechanism": "SCRAM-SHA-1",
+    },
+}}
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
