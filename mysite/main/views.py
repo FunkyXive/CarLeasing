@@ -1,8 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 # Create your views here.
 
 
 def homepage(request):
-    return HttpResponse("nignog")
+    return render(request=request,
+                  template_name='main/home.html',)
+
+
+def private_leasing(request):
+    return render(request=request,
+                  template_name='main/private_leasing.html',)
+def business_leasing(request):
+    return render(request=request,
+                  template_name='main/business_leasing.html',)
+
+                  
