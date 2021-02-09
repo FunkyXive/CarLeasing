@@ -162,3 +162,5 @@ dmypy.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,django
+mysite/main/migrations/0001_initial.py
+.gitignore
