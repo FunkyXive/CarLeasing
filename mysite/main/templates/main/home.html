@@ -1,5 +1,41 @@
 {% extends 'main/header.html' %}
-
+{% load static %}
 {% block 'content' %}
-<h1>HOMEPAGE</h1>
+<div class="slider">
+    <ul class="slides">
+        <li>
+            <img src="{% static '/img/banner/handsome-man-standing-in-front-of-black-car-and-presenting-it-PXBAXB.jpg' %}"> <!-- random image -->
+            <div class="caption center-align">
+                <h3>This is our big Tagline!</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            </div>
+        </li>
+        <li>
+            <img src="{% static 'img/banner/smiling-young-man-standing-front-car-talking-smartphone_23-2147937294.jpg' %}"> <!-- random image -->
+            <div class="caption left-align">
+                <h3>Left Aligned Caption</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            </div>
+        </li>
+        <li>
+            <img src="{% static 'img/banner/depositphotos_188823644-stock-photo-man-standing-near-his-car.jpg' %}"> <!-- random image -->
+            <div class="caption right-align">
+                <h3>Right Aligned Caption</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            </div>
+        </li>
+        <li>
+            <img src="{% static 'img/banner/depositphotos_148844347-stock-photo-handsome-man-standing-in-front.jpg' %}"> <!-- random image -->
+            <div class="caption center-align">
+                <h3>This is our big Tagline!</h3>
+                <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+  $(document).ready(function(){
+    $('.slider').slider()
+  })
+</script>
 {% endblock 'content' %}
