@@ -17,4 +17,7 @@ def business_leasing(request):
     return render(request=request,
                   template_name='main/business_leasing.html',)
 
-                  
+
+def contact(request):
+    return render(request=request,
+                  template_name='main/contact.html',)
