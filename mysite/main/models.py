@@ -21,12 +21,23 @@ class Gearbox(models.Model):
     gearboxType = CharField(max_length=50)
     amountOfGears = IntegerField()
 
+    def __str__(self):
+        return f'{self.amountOfGears} Speed {self.gearboxType}'
+
 
 class Drivetrain(models.Model):
     driveTrain = CharField(max_length=50)
 
+    def __str__(self):
+        return self.driveTrain
+
+
 class FuelType(models.Model):
     fuelType = CharField(max_length=50, default='Gasoline')
+
+    def __str__(self):
+        return self.fuelType
+
 
 class CarModel(models.Model):
     modelName = CharField(max_length=50)
@@ -40,10 +51,13 @@ class CarModel(models.Model):
     modelEngineCylinders = IntegerField()
 
     def __str__(self):
-        return self.modelName
+        return f'{self.modelYear} {self.modelBrand} {self.modelName}'
 
 
 class Car(models.Model):
     model = ForeignKey(CarModel, on_delete=CASCADE)
     milage = IntegerField()
     equipment = ManyToManyField(CarEquipment)
+
+    def __str__(self):
+        return f'{self.model}'
