@@ -25,7 +25,6 @@ class Gearbox(models.Model):
 class Drivetrain(models.Model):
     driveTrain = CharField(max_length=50)
 
-
 class FuelType(models.Model):
     fuelType = CharField(max_length=50, default='Gasoline')
 
