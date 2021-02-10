@@ -67,7 +67,6 @@ class Car(models.Model):
     model = ForeignKey(CarModel, on_delete=CASCADE)
     milage = IntegerField()
     equipment = ManyToManyField(CarEquipment)
-<<<<<<< HEAD
     carCurrentlyLeased = models.BooleanField(default=False)
 
 
@@ -91,8 +90,6 @@ class CompanyLease(models.Model):
     
 #class Contract(moodels.Model):
 #    contract = models.FileField() //todo
-=======
 
     def __str__(self):
         return f'{self.model}'
->>>>>>> 59dae470433ab072cef4b54c09ba399a87064ef6
