@@ -30,17 +30,13 @@ class Gearbox(models.Model):
 class Drivetrain(models.Model):
     driveTrain = CharField(max_length=50)
 
-<<<<<<< HEAD
-=======
     def __str__(self):
         return self.driveTrain
 
->>>>>>> 59dae470433ab072cef4b54c09ba399a87064ef6
 
 class FuelType(models.Model):
     fuelType = CharField(max_length=50, default='Gasoline')
 
-<<<<<<< HEAD
 
 class Company(models.Model):
     contactPerson = ForeignKey(User, on_delete=CASCADE)
@@ -50,10 +46,6 @@ class Company(models.Model):
     companyCity = CharField(max_length=20)
     companyPostalCode = IntegerField()
     cvrNumber = IntegerField(max)
-=======
-    def __str__(self):
-        return self.fuelType
->>>>>>> 59dae470433ab072cef4b54c09ba399a87064ef6
 
 
 class CarModel(models.Model):
