@@ -8,4 +8,4 @@ admin.site.register(Gearbox)
 admin.site.register(Drivetrain)
 admin.site.register(FuelType)
 admin.site.register(CarModel)
-
+admin.site.register(CarImage)

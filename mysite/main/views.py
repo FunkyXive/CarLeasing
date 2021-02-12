@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Car
 
 # Create your views here.
 
@@ -10,7 +11,8 @@ def homepage(request):
 
 def private_leasing(request):
     return render(request=request,
-                  template_name='main/private_leasing.html',)
+                  template_name='main/private_leasing.html',
+                  context={'cars': Car.objects.all})
 
 
 def business_leasing(request):
@@ -21,3 +23,10 @@ def business_leasing(request):
 def contact(request):
     return render(request=request,
                   template_name='main/contact.html',)
+
+
+def car(request, car_id):
+    car = Car.objects.get(id=car_id)
+    return render(request=request,
+                  template_name='main/cars/car_details.html',
+                  context={'car': car},)

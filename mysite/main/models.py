@@ -37,6 +37,9 @@ class Drivetrain(models.Model):
 class FuelType(models.Model):
     fuelType = CharField(max_length=50, default='Gasoline')
 
+    def __str__(self):
+        return self.fuelType
+
 
 class Company(models.Model):
     contactPerson = ForeignKey(User, on_delete=CASCADE)
@@ -63,11 +66,22 @@ class CarModel(models.Model):
         return f'{self.modelYear} {self.modelBrand} {self.modelName}'
 
 
+class CarImage(models.Model):
+    image = models.ImageField(upload_to='cars')
+
+    def __str__(self):
+        return self.image.name
+
+
 class Car(models.Model):
     model = ForeignKey(CarModel, on_delete=CASCADE)
     milage = IntegerField()
     equipment = ManyToManyField(CarEquipment)
     carCurrentlyLeased = models.BooleanField(default=False)
+    carImage = ManyToManyField(CarImage)
+
+    def __str__(self):
+        return f'{self.model}'
 
     def __str__(self):
         return f'{self.model}'
@@ -88,9 +102,6 @@ class CompanyLease(models.Model):
     leaseCar = OneToOneField(Car, on_delete=CASCADE)
     leaseCustomerCompany = ForeignKey(Company, on_delete=CASCADE)
 
-    
-#class Contract(moodels.Model):
-#    contract = models.FileField() //todo
 
-    def __str__(self):
-        return f'{self.model}'
+# class Contract(moodels.Model):
+#    contract = models.FileField() //todo
