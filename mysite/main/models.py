@@ -66,11 +66,19 @@ class CarModel(models.Model):
         return f'{self.modelYear} {self.modelBrand} {self.modelName}'
 
 
+class CarImage(models.Model):
+    image = models.ImageField(upload_to='cars')
+
+    def __str__(self):
+        return self.image.name
+
+
 class Car(models.Model):
     model = ForeignKey(CarModel, on_delete=CASCADE)
     milage = IntegerField()
     equipment = ManyToManyField(CarEquipment)
     carCurrentlyLeased = models.BooleanField(default=False)
+    carImage = ManyToManyField(CarImage)
 
     def __str__(self):
         return f'{self.model}'
