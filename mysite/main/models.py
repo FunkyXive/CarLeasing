@@ -69,7 +69,8 @@ class Car(models.Model):
     equipment = ManyToManyField(CarEquipment)
     carCurrentlyLeased = models.BooleanField(default=False)
 
-
+    def __str__(self):
+        return f'{self.model}'
 class PrivateLease(models.Model):
     leaseStartDate = DateField()
     leaseEndDate = DateField()
