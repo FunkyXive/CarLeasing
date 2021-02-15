@@ -35,6 +35,7 @@ def contact(request):
 
 
 def car(request, car_id):
+    car = Car.objects.get(id=car_id)
     return render(request=request,
                   template_name='main/cars/car_details.html',
                   context={'car': car},)

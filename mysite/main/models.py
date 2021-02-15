@@ -49,7 +49,7 @@ class Gearbox(models.Model):
     amountOfGears = IntegerField()
 
     def __str__(self):
-        return f'{self.amountOfGears} Speed {self.gearboxType}'
+        return f'{self.amountOfGears}-Speed {self.gearboxType}'
 
 
 class Drivetrain(models.Model):
