@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import CharField, TextField, ManyToManyField, OneToOneField, ForeignKey, DateField, TimeField, DateTimeField, IntegerField, DecimalField, CASCADE
 import datetime
 from django.contrib.auth.models import User
+from django.conf import settings
 # Create your models here.
 
 
@@ -67,10 +68,10 @@ class CarModel(models.Model):
 
 
 class CarImage(models.Model):
-    image = models.ImageField(upload_to='cars')
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT + '/cars')
 
     def __str__(self):
-        return self.image.name
+        return self.image.path
 
 
 class Car(models.Model):

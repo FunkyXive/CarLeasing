@@ -1,5 +1,19 @@
 {% extends 'main/header.html' %}
 {% load static %}
 {% block 'content' %}
-
+<div class="slider">
+    <ul class="slides">
+        
+        {% for carImage in car.carImage.all %}
+        <li>
+            <img src="{{carImage.image.url}}">
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<script>
+  $(document).ready(function(){
+    $('.slider').slider()
+  })
+</script>
 {% endblock 'content' %}

@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 app_name = 'main'  # here for namespacing of urls.
@@ -10,4 +12,4 @@ urlpatterns = [
     path("business_leasing", views.business_leasing, name="business_leasing"),
     path("contact", views.contact, name="contact"),
     path("cars/<int:car_id>", views.car, name="car"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
