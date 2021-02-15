@@ -6,20 +6,24 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.conf import settings
 # Create your models here.
+
+
 class Profile(models.Model):
-        profileUser = OneToOneField(User, on_delete=CASCADE)
-        profilePhoneNumber = DecimalField(decimal_places=0, max_digits=8)
-        profileCprNumber = DecimalField(max_digits=10, decimal_places=0)
-        profileStreetName = CharField(max_length=50)
-        profileStreetNumber = IntegerField()
-        profileStreetNumberSuffix = CharField(max_length=10)
-        profileCity = CharField(max_length=50)
-        profilePostalCode = IntegerField()
+    profileUser = OneToOneField(User, on_delete=CASCADE)
+    profilePhoneNumber = DecimalField(decimal_places=0, max_digits=8)
+    profileCprNumber = DecimalField(max_digits=10, decimal_places=0)
+    profileStreetName = CharField(max_length=50)
+    profileStreetNumber = IntegerField()
+    profileStreetNumberSuffix = CharField(max_length=10)
+    profileCity = CharField(max_length=50)
+    profilePostalCode = IntegerField()
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(profileUser=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
@@ -45,7 +49,7 @@ class Gearbox(models.Model):
     amountOfGears = IntegerField()
 
     def __str__(self):
-        return f'{self.amountOfGears} Speed {self.gearboxType}'
+        return f'{self.amountOfGears}-Speed {self.gearboxType}'
 
 
 class Drivetrain(models.Model):
@@ -104,8 +108,7 @@ class Car(models.Model):
     def __str__(self):
         return f'{self.model}'
 
-    def __str__(self):
-        return f'{self.model}'
+
 class PrivateLease(models.Model):
     leaseStartDate = DateField()
     leaseEndDate = DateField()
