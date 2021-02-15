@@ -4,6 +4,7 @@ import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.conf import settings
 # Create your models here.
 class Profile(models.Model):
         profileUser = OneToOneField(User, on_delete=CASCADE)
@@ -87,10 +88,10 @@ class CarModel(models.Model):
 
 
 class CarImage(models.Model):
-    image = models.ImageField(upload_to='cars')
+    image = models.ImageField(upload_to=settings.MEDIA_ROOT + '/cars')
 
     def __str__(self):
-        return self.image.name
+        return self.image.path
 
 
 class Car(models.Model):
