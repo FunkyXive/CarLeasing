@@ -5,8 +5,8 @@ from django.forms import widgets, ModelForm
 from django.forms.widgets import TextInput, PasswordInput, DateInput
 
 
-
-
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=TextInput(attrs={'placeholder': 'Username'}))
-    password = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Password'}))
+    username = forms.CharField(widget=TextInput(
+        attrs={'placeholder': 'Username'}))
+    password = forms.CharField(widget=PasswordInput(
+        attrs={'placeholder': 'Password'}))

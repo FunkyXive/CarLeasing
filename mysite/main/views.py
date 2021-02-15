@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from .models import Car
-
+from .forms import LoginForm
 # Create your views here.
 
 
 def homepage(request):
     return render(request=request,
-                  template_name='main/home.html',)
+                  template_name='main/home.html',
+                  context={'loginForm': LoginForm, 'username': request.user.username})
 
 
 def private_leasing(request):
