@@ -39,7 +39,8 @@
                     <form id="login" class="col s12 login_box" method="POST" action="/login/">
                         <h4>Login</h4>
                         {% csrf_token %}
-                        {{loginForm.as_p}}
+                        {{loginForm}}
+                        <a>yeet</a>
                         <div class="col s12">
                             <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
                             <p class="center">Not registered? <a href="/register">Create an account</a></p>
