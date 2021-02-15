@@ -1,8 +1,28 @@
 from django.db import models
 from django.db.models import CharField, TextField, ManyToManyField, OneToOneField, ForeignKey, DateField, TimeField, DateTimeField, IntegerField, DecimalField, CASCADE
 import datetime
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 # Create your models here.
+class Profile(models.Model):
+        profileUser = OneToOneField(User, on_delete=CASCADE)
+        profilePhoneNumber = DecimalField(decimal_places=0, max_digits=8)
+        profileCprNumber = DecimalField(max_digits=10, decimal_places=0)
+        profileStreetName = CharField(max_length=50)
+        profileStreetNumber = IntegerField()
+        profileStreetNumberSuffix = CharField(max_length=10)
+        profileCity = CharField(max_length=50)
+        profilePostalCode = IntegerField()
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(profileUser=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 
 class CarBrand(models.Model):
