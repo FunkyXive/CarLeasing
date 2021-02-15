@@ -30,20 +30,37 @@
                         <li><a href="private_leasing"><i class="fas fa-car-side"></i> Private Leasing</a></li>
                         <li><a href="business_leasing"><i class="fas fa-truck"></i> Business Leasing</a></li>
                         <li><a href="contact"><i class="fas fa-phone"></i> Contact Us</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="/profile"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        {% else %}
                         <li><a class="waves-effect waves-light modal-trigger" href="#loginModal"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>
             <div id="loginModal" class="modal">
                 <div class="modal-content">
-                    <form id="login" class="col s12 login_box" method="POST" action="/login/">
+                    <form id="login" class="" method="POST" action="/login">
                         <h4>Login</h4>
                         {% csrf_token %}
-                        {{loginForm}}
-                        <a>yeet</a>
+                        {{loginForm.as_p}}
                         <div class="col s12">
                             <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
-                            <p class="center">Not registered? <a href="/register">Create an account</a></p>
+                            <p class="center">Not registered? <a class="modal-trigger"href="#signupModal">Create an account</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="signupModal" class="modal">
+                <div class="modal-content">
+                    <form id="signupModal" class="" method="POST" action="/register">
+                        <h4>Sign Up</h4>
+                        {% csrf_token %}
+                        {{registerUser.as_p}}
+                        {{registerProfile.as_p}}
+                        <div class="col s12">
+                            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Sign Up</button>
                         </div>
                     </form>
                 </div>
@@ -52,6 +69,11 @@
             <script>$(document).ready(function(){$('.modal').modal();});</script>
         </header>
         <main>
+            {% if messages %}
+                {% for message in messages %}
+                    <script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:3000});</script>
+                {% endfor %}
+            {% endif %}
             {% block 'content' %}
             {% endblock 'content' %}
         </main>
