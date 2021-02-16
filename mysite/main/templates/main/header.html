@@ -30,8 +30,11 @@
                         <li><a href="{% url 'main:private_leasing' %}"><i class="fas fa-car-side"></i> Private Leasing</a></li>
                         <li><a href="{% url 'main:business_leasing' %}"><i class="fas fa-truck"></i> Business Leasing</a></li>
                         <li><a href="{% url 'main:contact' %}"><i class="fas fa-phone"></i> Contact Us</a></li>
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'main:profile' %}"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        {% if user.is_authenticated and user.is_superuser %}
+                        <li><a href="admin"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        <li><a href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        {% elif user.is_authenticated %}
+                        <li><a href="{% url 'main:profilePage' %}"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
                         <li><a href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         {% else %}
                         <li><a class="waves-effect waves-light modal-trigger" href="#loginModal"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
