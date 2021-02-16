@@ -22,29 +22,49 @@ def homepage(request):
 def private_leasing(request):
     return render(request=request,
                   template_name='main/private_leasing.html',
-                  context={'cars': Car.objects.all})
+                  context={'cars': Car.objects.all,
+                           'loginForm': LoginForm,
+                           'username': request.user.username,
+                           'registerUser': NewUserForm,
+                           'registerProfile': RegisterProfileForm, })
 
 
 def business_leasing(request):
     return render(request=request,
-                  template_name='main/business_leasing.html',)
+                  template_name='main/business_leasing.html',
+                  context={'loginForm': LoginForm,
+                           'username': request.user.username,
+                           'registerUser': NewUserForm,
+                           'registerProfile': RegisterProfileForm, })
 
 
 def contact(request):
     return render(request=request,
-                  template_name='main/contact.html',)
+                  template_name='main/contact.html',
+                  context={'loginForm': LoginForm,
+                           'username': request.user.username,
+                           'registerUser': NewUserForm,
+                           'registerProfile': RegisterProfileForm, })
 
 
 def car(request, car_id):
     car = Car.objects.get(id=car_id)
     return render(request=request,
                   template_name='main/cars/car_details.html',
-                  context={'car': car},)
+                  context={'car': car,
+                           'loginForm': LoginForm,
+                           'username': request.user.username,
+                           'registerUser': NewUserForm,
+                           'registerProfile': RegisterProfileForm, })
 
 
 def profile(request):
     return render(request=request,
-                  template_name='main/profile.html',)
+                  template_name='main/profile.html',
+                  context={'loginForm': LoginForm,
+                           'username': request.user.username,
+                           'registerUser': NewUserForm,
+                           'registerProfile': RegisterProfileForm, })
 
 
 def login_request(request):
