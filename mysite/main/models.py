@@ -117,6 +117,7 @@ class PrivateLease(models.Model):
     leaseMonthlyPrice = DecimalField(max_digits=10, decimal_places=2)
     leaseCar = OneToOneField(Car, on_delete=CASCADE)
     leaseCustomer = ForeignKey(User, on_delete=CASCADE)
+    contract = models.FileField(upload_to="contracts")
 
 
 class CompanyLease(models.Model):
@@ -126,7 +127,7 @@ class CompanyLease(models.Model):
     leaseMonthlyPrice = DecimalField(max_digits=10, decimal_places=2)
     leaseCar = OneToOneField(Car, on_delete=CASCADE)
     leaseCustomerCompany = ForeignKey(Company, on_delete=CASCADE)
-
+    contract = models.FileField(upload_to="contracts")
 
 # class Contract(moodels.Model):
 #    contract = models.FileField() //todo

@@ -1,4 +1,5 @@
 ## TODO
-Make Media work in production
+lease functionality 
+company lease
 Price calculator
 Localization

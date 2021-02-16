@@ -77,10 +77,8 @@
                     <script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:3000});</script>
                 {% endfor %}
             {% endif %}
-            <div class="container">
-                {% block 'content' %}
-                {% endblock 'content' %}
-            </div>
+            {% block 'content' %}
+            {% endblock 'content' %}
 
         </main>
         <footer class="page-footer">
