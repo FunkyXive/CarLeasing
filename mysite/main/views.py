@@ -3,8 +3,9 @@ from .models import Car, User, Profile
 from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, ContactForm
 from django.urls import reverse
+from django.core import send_mail, BadHeaderError
 
 # Create your views here.
 
@@ -40,6 +41,19 @@ def business_leasing(request):
 
 
 def contact(request):
+    if request.method == 'GET':
+        contact_form = ContactForm()
+    else:
+        contact_form = ContactForm(request.POST)
+        if contact_form.is_valid():
+            subject = contact_form.cleaned_data['subject']
+            from_email = contact_form.cleaned_data['from_email']
+            message = contact_form.cleaned_data['message']
+            try:
+                send_mail(subject, message, from_email,
+                          ['mort333c@edu.sde.dk'])
+            except BadHeaderError:
+            return 
     return render(request=request,
                   template_name='main/contact.html',
                   context={'loginForm': LoginForm,
