@@ -11,10 +11,10 @@
         <title>A/M Leasing</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://kit.fontawesome.com/c16b59f4d0.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -24,18 +24,15 @@
         <header>
             <nav>
                 <div class="nav-wrapper">
-                    <a href="/" class="brand-logo">A/M Leasing</a>
+                    <a href="{% url 'main:homepage' %}" class="brand-logo"><img id="navlogo" src="{% static 'img/a-m_leasing.png' %}"></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="private_leasing"><i class="fas fa-car-side"></i> Private Leasing</a></li>
-                        <li><a href="business_leasing"><i class="fas fa-truck"></i> Business Leasing</a></li>
-                        <li><a href="contact"><i class="fas fa-phone"></i> Contact Us</a></li>
-                        {% if user.is_authenticated and user.is_superuser %}
-                        <li><a href="/admin"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
-                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                        {% elif user.is_authenticated %}
-                        <li><a href="/profilePage"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
-                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <li><a href="{% url 'main:homepage' %}"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="{% url 'main:private_leasing' %}"><i class="fas fa-car-side"></i> Private Leasing</a></li>
+                        <li><a href="{% url 'main:business_leasing' %}"><i class="fas fa-truck"></i> Business Leasing</a></li>
+                        <li><a href="{% url 'main:contact' %}"><i class="fas fa-phone"></i> Contact Us</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'main:profile' %}"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        <li><a href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         {% else %}
                         <li><a class="waves-effect waves-light modal-trigger" href="#loginModal"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
                         {% endif %}
@@ -109,6 +106,7 @@
                 </div>
             </div>
         </footer>
+        <script>$(document).ready(function() { $("#navlogo").css("height", $(".nav-wrapper").height()); });</script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </body>
 </html>

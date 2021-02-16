@@ -36,7 +36,7 @@
                         <p><i class="fas fa-horse-head"></i> {{car.model.modelPower}} BHP</p>
                     </div>
                 </div>
-                <a class="btn waves-effect waves-light red lighten-2" href="cars/{{car.id}}">More information</a>
+                <a class="btn waves-effect waves-light red lighten-2" href="{% url 'main:cars' car.id %}">More information</a>
             </div>
         </div>
     </div>

@@ -8,6 +8,6 @@ main {
     flex: 1 0 auto;
 }
 
-.slider .indicators .indicator-item .active {
-    background-color: #ee6e73;
+.slider .indicators .indicator-item.active {
+    background-color: #E57373;
 }
