@@ -30,8 +30,11 @@
                         <li><a href="private_leasing"><i class="fas fa-car-side"></i> Private Leasing</a></li>
                         <li><a href="business_leasing"><i class="fas fa-truck"></i> Business Leasing</a></li>
                         <li><a href="contact"><i class="fas fa-phone"></i> Contact Us</a></li>
-                        {% if user.is_authenticated %}
-                        <li><a href="/profile"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        {% if user.is_authenticated and user.is_superuser %}
+                        <li><a href="/admin"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        {% elif user.is_authenticated %}
+                        <li><a href="/profilePage"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
                         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         {% else %}
                         <li><a class="waves-effect waves-light modal-trigger" href="#loginModal"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
@@ -46,7 +49,7 @@
                         {% csrf_token %}
                         {{loginForm.as_p}}
                         <div class="col s12">
-                            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
+                            <button class="waves-effect waves-light btn" type="submit">Login</button>
                             <p class="center">Not registered? <a class="modal-trigger"href="#signupModal">Create an account</a></p>
                         </div>
                     </form>
@@ -60,7 +63,7 @@
                         {{registerUser.as_p}}
                         {{registerProfile.as_p}}
                         <div class="col s12">
-                            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Sign Up</button>
+                            <button class="waves-effect waves-light btn" type="submit">Sign Up</button>
                         </div>
                     </form>
                 </div>
@@ -74,8 +77,11 @@
                     <script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:3000});</script>
                 {% endfor %}
             {% endif %}
-            {% block 'content' %}
-            {% endblock 'content' %}
+            <div class="container">
+                {% block 'content' %}
+                {% endblock 'content' %}
+            </div>
+
         </main>
         <footer class="page-footer">
             <div class="container">

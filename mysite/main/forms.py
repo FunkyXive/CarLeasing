@@ -16,7 +16,8 @@ class LoginForm(AuthenticationForm):
 class RegisterProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('profilePhoneNumber', 'profileCprNumber', 'profileAddress', 'profileCity', 'profilePostalCode')
+        fields = ('profilePhoneNumber', 'profileCprNumber',
+                  'profileAddress', 'profileCity', 'profilePostalCode')
 
 
 class NewUserForm(UserCreationForm):
@@ -24,7 +25,8 @@ class NewUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", "password1", "password2")
+        fields = ("username", "first_name", "last_name",
+                  "email", "password1", "password2")
 
     def save(self, commit=True):
         user = super(NewUserForm, self).save(commit=False)
@@ -33,3 +35,16 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('profilePhoneNumber', 'profileCprNumber',
+                  'profileAddress', 'profileCity', 'profilePostalCode')
