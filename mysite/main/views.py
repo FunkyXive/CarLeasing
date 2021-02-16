@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile
-from .forms import LoginForm, NewUserForm, RegisterProfileForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, ContactForm
@@ -15,6 +15,7 @@ def homepage(request):
                   template_name='main/home.html',
                   context={'loginForm': LoginForm,
                            'username': request.user.username,
+                           'user_id': request.user.id,
                            'registerUser': NewUserForm,
                            'registerProfile': RegisterProfileForm,
                            })
@@ -81,6 +82,22 @@ def profile(request):
                            'registerProfile': RegisterProfileForm, })
 
 
+def profilePage(request):
+    if request.method == 'POST':
+        #user = User.objects.get(id=user_id)
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        user_form.save()
+        profile_form.save()
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'main/profile_page.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
+
+
 def login_request(request):
     if request.method == 'POST':
         form = LoginForm(request=request, data=request.POST)
@@ -109,7 +126,6 @@ def register(request):
         userForm = NewUserForm(request.POST)
         profileForm = RegisterProfileForm(request.POST)
         print(userForm.errors.as_data())
-        print(request.POST)
         if userForm.is_valid() and profileForm.is_valid():
             user = userForm.save()
             user.profile.profilePhoneNumber = request.POST['profilePhoneNumber']

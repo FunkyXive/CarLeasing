@@ -11,6 +11,7 @@ urlpatterns = [
     path("private_leasing", views.private_leasing, name="private_leasing"),
     path("business_leasing", views.business_leasing, name="business_leasing"),
     path("contact", views.contact, name="contact"),
+    path("profilePage", views.profilePage, name="profilePage"),
     path("cars/<int:car_id>", views.car, name="cars"),
     path("login", views.login_request, name="login"),
     path("logout", views.logout_request, name="logout"),

@@ -46,7 +46,7 @@
                         {% csrf_token %}
                         {{loginForm.as_p}}
                         <div class="col s12">
-                            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
+                            <button class="waves-effect waves-light btn" type="submit">Login</button>
                             <p class="center">Not registered? <a class="modal-trigger"href="#signupModal">Create an account</a></p>
                         </div>
                     </form>
@@ -60,7 +60,7 @@
                         {{registerUser.as_p}}
                         {{registerProfile.as_p}}
                         <div class="col s12">
-                            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Sign Up</button>
+                            <button class="waves-effect waves-light btn" type="submit">Sign Up</button>
                         </div>
                     </form>
                 </div>
@@ -74,8 +74,11 @@
                     <script>M.toast({html: "{{message}}", classes: 'blue rounded', displayLength:3000});</script>
                 {% endfor %}
             {% endif %}
-            {% block 'content' %}
-            {% endblock 'content' %}
+            <div class="container">
+                {% block 'content' %}
+                {% endblock 'content' %}
+            </div>
+
         </main>
         <footer class="page-footer">
             <div class="container">
