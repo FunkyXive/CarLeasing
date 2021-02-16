@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile
-from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, ContactForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.urls import reverse
-from django.core import send_mail, BadHeaderError
+from django.core import BadHeaderError, 
 
 # Create your views here.
 
@@ -53,7 +53,7 @@ def contact(request):
                 send_mail(subject, message, from_email,
                           ['mort333c@edu.sde.dk'])
             except BadHeaderError:
-            return 
+                pass
     return render(request=request,
                   template_name='main/contact.html',
                   context={'loginForm': LoginForm,
