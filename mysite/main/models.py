@@ -19,6 +19,7 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.profileUser}"
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -92,10 +93,10 @@ class CarModel(models.Model):
 
 
 class CarImage(models.Model):
-    image = models.ImageField(upload_to=settings.MEDIA_ROOT + '/cars')
+    image = models.ImageField(upload_to='cars')
 
     def __str__(self):
-        return self.image.path
+        return self.image.url
 
 
 class Car(models.Model):
