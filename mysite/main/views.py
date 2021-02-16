@@ -4,6 +4,7 @@ from .forms import LoginForm, NewUserForm, RegisterProfileForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.urls import reverse
 
 # Create your views here.
 
@@ -11,11 +12,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 def homepage(request):
     return render(request=request,
                   template_name='main/home.html',
-                  context={'loginForm': LoginForm, 
+                  context={'loginForm': LoginForm,
                            'username': request.user.username,
                            'registerUser': NewUserForm,
                            'registerProfile': RegisterProfileForm,
-                          })
+                           })
 
 
 def private_leasing(request):
@@ -39,6 +40,11 @@ def car(request, car_id):
     return render(request=request,
                   template_name='main/cars/car_details.html',
                   context={'car': car},)
+
+
+def profile(request):
+    return render(request=request,
+                  template_name='main/profile.html',)
 
 
 def login_request(request):
@@ -86,7 +92,8 @@ def register(request):
             return redirect('main:homepage')
         else:
             for msg in userForm.error_messages:
-                messages.error(request, f"{msg}: {userForm.error_messages[msg]}")
+                messages.error(
+                    request, f"{msg}: {userForm.error_messages[msg]}")
             return redirect('main:homepage')
 
     form = UserCreationForm
