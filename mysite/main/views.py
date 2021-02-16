@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.urls import reverse
-from django.core import BadHeaderError, 
+from django.core.mail import send_mail, BadHeaderError
 
 # Create your views here.
 
