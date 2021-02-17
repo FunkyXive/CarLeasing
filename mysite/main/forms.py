@@ -38,9 +38,12 @@ class NewUserForm(UserCreationForm):
 
 
 class ContactForm(forms.Form):
-    from_email = forms.EmailField(required=True)
+    your_email = forms.EmailField(required=True)
     subject = forms.CharField(required=True)
-    message = forms.CharField(widget=forms.Textarea, required=True)
+    message = forms.CharField(widget=forms.Textarea(
+        attrs={'rows': '10', 'style': 'resize: none; min-height: 100px'}), required=True)
+
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User

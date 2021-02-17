@@ -47,19 +47,22 @@ def contact(request):
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
             subject = contact_form.cleaned_data['subject']
-            from_email = contact_form.cleaned_data['from_email']
+            your_email = contact_form.cleaned_data['from_email']
             message = contact_form.cleaned_data['message']
             try:
                 send_mail(subject, message, from_email,
                           ['mort333c@edu.sde.dk'])
             except BadHeaderError:
-                pass
+                for msg in contact_form.error_messages:
+                    messages.error(
+                        request, f"{msg}: {contact_form.error_messages[msg]}")
     return render(request=request,
                   template_name='main/contact.html',
                   context={'loginForm': LoginForm,
                            'username': request.user.username,
                            'registerUser': NewUserForm,
-                           'registerProfile': RegisterProfileForm, })
+                           'registerProfile': RegisterProfileForm,
+                           'contact_form': contact_form})
 
 
 def car(request, car_id):

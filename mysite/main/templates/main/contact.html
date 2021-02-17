@@ -1,6 +1,15 @@
 {% extends 'main/header.html' %}
 {% block 'content' %}
 <div class="container">
-
+    <h4>If you have any questions send us an email below</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{contact_form.as_p}}
+        <div class="form-actions">
+            <button class="btn waves-effect waves-light red lighten-2" type="submit" name="action">Send
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </form>
 </div>
 {% endblock 'content' %}
