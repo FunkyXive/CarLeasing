@@ -105,6 +105,7 @@ class Car(models.Model):
     equipment = ManyToManyField(CarEquipment)
     carCurrentlyLeased = models.BooleanField(default=False)
     carImage = ManyToManyField(CarImage)
+    carNewPrice = IntegerField()
 
     def __str__(self):
         return f'{self.model}'
