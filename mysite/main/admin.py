@@ -10,4 +10,7 @@ admin.site.register(FuelType)
 admin.site.register(CarModel)
 admin.site.register(CarImage)
 admin.site.register(Profile)
+admin.site.register(Company)
+admin.site.register(PrivateLease)
+admin.site.register(CompanyLease)
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Car, User, Profile
+from .models import Car, User, Profile, PrivateLease, CompanyLease, Company
 from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
@@ -76,28 +76,24 @@ def car(request, car_id):
                            'registerProfile': RegisterProfileForm, })
 
 
-def profile(request):
-    return render(request=request,
-                  template_name='main/profile.html',
-                  context={'loginForm': LoginForm,
-                           'username': request.user.username,
-                           'registerUser': NewUserForm,
-                           'registerProfile': RegisterProfileForm, })
-
-
 def profilePage(request):
+    userCompanies = []
     if request.method == 'POST':
         #user = User.objects.get(id=user_id)
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
         user_form.save()
         profile_form.save()
-    else:
+    elif request.method == 'GET':
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'main/profile_page.html', {
-        'user_form': user_form,
-        'profile_form': profile_form
+        userCompanies = Company.objects.filter(contactPerson=request.user.id)
+    return render(request=request, 
+                  template_name='main/profile_page.html', 
+                  context={'user_form': user_form,
+                           'profile_form': profile_form,
+                           'privateLeases': PrivateLease.objects.filter(leaseCustomer=request.user),
+                           'companyLeases': CompanyLease.objects.filter(leaseCustomerCompany__in=userCompanies),
     })
 
 
@@ -114,7 +110,7 @@ def login_request(request):
                 return redirect('/')
 
     messages.error(request,
-                   f"login failed, the login details provided were either wrong or the given user has not yet been activated, if the latter, contact helpdesk")
+                   f"login failed, the login details provided wrong")
     return redirect('main:homepage')
 
 

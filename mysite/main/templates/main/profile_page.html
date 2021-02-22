@@ -1,12 +1,45 @@
-{% extends 'main/header.html' %}
+{% extends 'main/header.html' %} 
 {% load static %}
 {% block 'content' %}
 <div class="container">
-  <form method="post">
-    {% csrf_token %}
-    {{ user_form.as_table }}
-    {{ profile_form.as_table }}
-    <button class="" type="submit">Save changes</button>
-  </form>
+    <div class="row">
+        <div class="col s5">
+            <h5>Your Profile</h5>
+            <form method="post">
+                {% csrf_token %} 
+                {{ user_form.as_table }} 
+                {{ profile_form.as_table }}
+                <button class="" type="submit">Save changes</button>
+            </form>
+        </div>
+        <div class="col s5 offset-s2">
+            <h5>Your Leasings</h5>
+            <ul class="collapsible">
+                {% for privateLease in privateLeases %}
+                <li>
+                    <div class="collapsible-header">{{privateLease.leaseCar}}</div>
+                    <div class="collapsible-body">Lease Start: {{privateLease.leaseStartDate}}</div>
+                    <div class="collapsible-body">Lease End: {{privateLease.leaseEndDate}}</div>
+                    <div class="collapsible-body">Downpayment: {{privateLease.leaseDownpayment}}</div>
+                    <div class="collapsible-body">Monthly Payment: {{privateLease.leaseMonthlyPrice}}</div>
+                    <div class="collapsible-body">Car leased: {{privateLease.leaseCar}}</div>
+                    <div class="collapsible-body">Leasing Customer: {{privateLease.leaseCustomer}}</div>
+                    <div class="collapsible-body">Contract: {{privateLease.contract}}</div>
+                </li>
+                {% endfor %}
+                {% for companyLease in companyLeases %}
+                <li>
+                    <div class="collapsible-header">{{companyLease.leaseCar}}</div>
+                    <div class="collapsible-body">Lease Start: {{companyLease.leaseStartDate}}, Lease End: {{companyLease.leaseEndDate}}</div>
+                    <div class="collapsible-body">Downpayment: {{companyLease.leaseDownpayment}}, Monthly Payment: {{companyLease.leaseMonthlyPrice}}</div>
+                    <div class="collapsible-body">Car leased: {{companyLease.leaseCar}}, Leasing Customer: {{companyLease.leaseCustomerCompany}}</div>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
 </div>
+<script>$(document).ready(function(){$('.collapsible').collapsible();});</script>
+
 {% endblock 'content' %}
