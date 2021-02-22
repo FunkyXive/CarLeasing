@@ -74,7 +74,10 @@ class Company(models.Model):
     companyStreetNumber = IntegerField()
     companyCity = CharField(max_length=20)
     companyPostalCode = IntegerField()
-    cvrNumber = IntegerField(max)
+    cvrNumber = IntegerField()
+
+    def __str__(self):
+        return f"{self.companyName}"
 
 
 class CarModel(models.Model):
@@ -120,6 +123,9 @@ class PrivateLease(models.Model):
     leaseCustomer = ForeignKey(User, on_delete=CASCADE)
     contract = models.FileField(upload_to="contracts")
 
+    def __str__(self):
+        return f"{self.leaseCustomer} {self.leaseCar}"
+
 
 class CompanyLease(models.Model):
     leaseStartDate = DateField()
@@ -130,5 +136,7 @@ class CompanyLease(models.Model):
     leaseCustomerCompany = ForeignKey(Company, on_delete=CASCADE)
     contract = models.FileField(upload_to="contracts")
 
+    def __str__(self):
+        return f"{self.leaseCustomerCompany} {self.leaseCar}"
 # class Contract(moodels.Model):
 #    contract = models.FileField() //todo
