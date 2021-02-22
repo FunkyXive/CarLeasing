@@ -1,4 +1,4 @@
-{% extends 'main/header.html' %} {% load static %} {% block 'content' %}
+{% extends 'main/header.html' %} {% load static %} {% load mathfilters %} {% block 'content' %}
 <div class="container">
     <div class="slider">
         <ul class="slides">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col s6">
                     <b>Mileage</b>
-                    <p>{{car.milage}}</p>
+                    <p id="carMileage">{{car.milage}}</p>
                 </div>
             </div>
         </div>
@@ -65,26 +65,80 @@
     <div class="row">
         <div class="col l6"></div>
         <div class="col l6">
+            <h5>Monthly Payment</h5>
+            <span id="monthlyPaymentValue"></span>
             <form action="" method="post">
                 <label for="downPayment">Down Payment</label>
                 <p class="range-field">
-                    <input type="range" id="downPayment" name="downPayment" min="{{}}" max="10000"/>
+                <div class="right-align"><span id="downPaymentValue"></span></div>
+                <input type="range" id="downPayment" name="downPayment" min="{{car.carNewPrice|mul:0.25}}"
+                    max="{{car.carNewPrice|mul:0.5}}" />
                 </p>
                 <label for="leaseDuration">Lease Duration</label>
                 <p class="range-field">
-                    <input type="range" id="leaseDuration" name="leaseDuration" min="6" max="36" step="1" unit="months"/>
+                <div class="right-align"><span id="leaseDurationValue"></span></div>
+                <input type="range" id="leaseDuration" name="leaseDuration" min="6" max="36" step="1" value="12" />
                 </p>
                 <label for="milesPerYear">Miles Per Year</label>
                 <p class="range-field">
-                    <input type="range" id="milesPerYear" name="milesPerYear" min="5000" max="50000" step="2500" unit="miles"/>
+                <div class="right-align"><span id="milesPerYearValue"></span></div>
+                <input type="range" id="milesPerYear" name="milesPerYear" min="5000" max="50000" step="2500"
+                    value="10000" />
                 </p>
+                <a class="waves-effect waves-light btn modal-trigger red lighten-2" href="#modalLeasing">Edit</a>
             </form>
         </div>
     </div>
 </div>
+<div id="modalLeasing" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Finalize</a>
+    </div>
+  </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.slider').slider()
+
+        document.getElementById('monthlyPaymentValue').innerHTML = calculateMonthlyPayment() + " GBP/Month"
+        document.getElementById('downPaymentValue').innerHTML = $('#downPayment').val() + " GBP"
+        document.getElementById('leaseDurationValue').innerHTML = $('#leaseDuration').val() + " Months"
+        document.getElementById('milesPerYearValue').innerHTML = $('#milesPerYear').val() + " Miles/Year"
+
+        $('#downPayment').on('input', function () {
+            document.getElementById('downPaymentValue').innerHTML = $(this).val() + " GBP"
+            document.getElementById('monthlyPaymentValue').innerHTML = calculateMonthlyPayment() + " GBP/Month"
+        })
+
+        $('#leaseDuration').on('input', function () {
+            document.getElementById('leaseDurationValue').innerHTML = $(this).val() + " Months"
+            document.getElementById('monthlyPaymentValue').innerHTML = calculateMonthlyPayment() + " GBP/Month"
+        })
+
+        $('#milesPerYear').on('input', function () {
+            document.getElementById('milesPerYearValue').innerHTML = $(this).val() + " Miles/Year"
+            document.getElementById('monthlyPaymentValue').innerHTML = calculateMonthlyPayment() + " GBP/Month"
+        })
+
+        function calculateMonthlyPayment() {
+            var downPayment = $('#downPayment').val()
+            var leaseDuration = $('#leaseDuration').val()
+            var milesPerYear = $('#milesPerYear').val()
+            var carPrice = {{car.carNewPrice}}
+            var impairmentPercent = -0.5 * (milesPerYear * 0.001) + 95
+            var residual = carPrice * impairmentPercent * 0.01
+
+            var cost = carPrice - residual
+            var costPeriod = cost - downPayment
+            var taxPrice = 0.009 * carPrice * 0.05
+            var periodPayment = costPeriod + residual
+            var monthlyPayment = (periodPayment / leaseDuration) + taxPrice + (milesPerYear * 0.05)
+
+            return monthlyPayment
+        }
     })
 </script>
 {% endblock 'content' %}
