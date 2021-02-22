@@ -65,7 +65,20 @@
     <div class="row">
         <div class="col l6"></div>
         <div class="col l6">
-            
+            <form action="" method="post">
+                <label for="downPayment">Down Payment</label>
+                <p class="range-field">
+                    <input type="range" id="downPayment" name="downPayment" min="{{}}" max="10000"/>
+                </p>
+                <label for="leaseDuration">Lease Duration</label>
+                <p class="range-field">
+                    <input type="range" id="leaseDuration" name="leaseDuration" min="6" max="36" step="1" unit="months"/>
+                </p>
+                <label for="milesPerYear">Miles Per Year</label>
+                <p class="range-field">
+                    <input type="range" id="milesPerYear" name="milesPerYear" min="5000" max="50000" step="2500" unit="miles"/>
+                </p>
+            </form>
         </div>
     </div>
 </div>
