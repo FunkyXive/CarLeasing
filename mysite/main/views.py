@@ -99,10 +99,13 @@ def profile_page(request):
     })
 def register_company(request):
     form = CompanyForm(request.POST)
-    print(form, "pik")
+    #print(form.errors.as_text())
     if request.method == 'POST':
         if form.is_valid():
-            print(form, "yeet")
+            form.save()
+        else:
+            print(form.errors.as_text())
+            messages.error(request, form.errors.as_data())
     
     return redirect('main:profile_page')
 def login_request(request):

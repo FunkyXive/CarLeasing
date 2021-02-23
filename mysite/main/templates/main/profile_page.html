@@ -18,7 +18,7 @@
                 {% for userCompany in userCompanies %}
                 <li class="collection-item">{{userCompany.companyName}}</li>
                 {% endfor %}
-                <li class="collection-item"><a href="#registerCompanyModal" class="waves-effect waves-light btn modal-trigger"><i class="far fa-plus-square"></i></a></li>
+                <li class="collection-item"><a href="#registerCompanyModal" class="waves-effect red lighten-2 waves-light btn modal-trigger"><i class="far fa-plus-square"></i></a></li>
             </ul>
         </div>
         <div class="col s4 offset-s1">
@@ -53,14 +53,19 @@
             <form id="registerCompanyModal" class="" method="POST" action="/register_company">
                 <h4>Register Company</h4>
                 {% csrf_token %}
-                <input type="text" name="contactPerson" value="{{user.id}}" readonly="readonly" type="hidden">
+                <input name="contactPerson" value="{{user.id}}" type="hidden" readonly="readonly">
+                <label>Company Name:</label><br>
                 <input type="text" name="companyName" placeholder="Name of your company">
-                <input type="text" name="compannyAddress" placeholder="Street name and number of your company">
+                <label>Address</label><br>
+                <input type="text" name="companyAddress" placeholder="Street name and number of your company">
+                <label>City</label><br>
                 <input type="text" name="companyCity" placeholder="City of your company">
-                <input type="text" name="companyPostalCode" placeholder="Postal code of your company">
-                <input type="text" name="cvrNumber" placeholder="your company cvr number">
+                <label>Postal Code</label><br>
+                <input type="number" name="companyPostalCode" placeholder="Postal code of your company">
+                <label>CVR Number</label><br>
+                <input type="number" name="cvrNumber" placeholder="your company cvr number">
                 <div class="col s12">
-                    <button class="waves-effect waves-light btn" type="submit">Register Company</button>
+                    <button class="waves-effect waves-light btn red lighten-2" type="submit">Register Company</button>
                 </div>
             </form>
         </div>
