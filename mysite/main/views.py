@@ -51,7 +51,7 @@ def contact(request):
             your_email = contact_form.cleaned_data['from_email']
             message = contact_form.cleaned_data['message']
             try:
-                send_mail(subject, message, from_email,
+                send_mail(subject, message, your_email,
                           ['mort333c@edu.sde.dk'])
             except BadHeaderError:
                 for msg in contact_form.error_messages:
@@ -66,21 +66,38 @@ def contact(request):
                            'contact_form': contact_form})
 
 
-def car(request, car_id):
+def private_car(request, car_id):
     car = Car.objects.get(id=car_id)
     currentUser = request.user
     today = date.today()
-    todayFormatted = today.strftime("%Y/%m/%d")
+    todayFormatted = today.strftime("%Y-%m-%d")
     if request.method == 'POST':
         privateLeasingForm = PrivateLeasingForm(request.POST)
+        print(privateLeasingForm.errors.as_data())
         if privateLeasingForm.is_valid():
             leaseStartDate = privateLeasingForm.cleaned_data['start_date']
             leaseEndDate = privateLeasingForm.cleaned_data['end_date']
             leaseDownpayment = privateLeasingForm.cleaned_data['down_payment']
             leaseMonthlyPrice = privateLeasingForm.cleaned_data['monthly_price']
+            leaseMilesPerYear = privateLeasingForm.cleaned_data['miles_per_year']
+            leaseCar = car
+            leaseCustomer = currentUser
+
+            #startDateSplit = leaseStartDate.split('/')
+            #endDateSplit = leaseEndDate.split('/')
+            #startDateFixed = f"{startDateSplit[0]}-{startDateSplit[1]}-{startDateSplit[2]}"
+            #endDateFixed = f"{endDateSplit[0]}-{endDateSplit[1]}-{endDateSplit[2]}"
+
+            newPrivateLease = PrivateLease(leaseStartDate=leaseStartDate, leaseEndDate=leaseEndDate, leaseDownpayment=leaseDownpayment,
+                                           leaseMonthlyPrice=leaseMonthlyPrice, leaseMilesPerYear=leaseMilesPerYear, leaseCar=leaseCar, leaseCustomer=leaseCustomer)
+
+            newPrivateLease.save()
+            car.carCurrentlyLeased = True
+
+            return redirect("main:profile_page")
 
     return render(request=request,
-                  template_name='main/cars/car_details.html',
+                  template_name='main/privatecars/car_details.html',
                   context={'car': car,
                            'loginForm': LoginForm,
                            'username': request.user.username,
