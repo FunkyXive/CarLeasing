@@ -85,7 +85,11 @@
                 <input type="range" id="milesPerYear" name="milesPerYear" min="5000" max="50000" step="2500"
                     value="10000" />
                 </p>
-                <a class="waves-effect waves-light btn modal-trigger red lighten-2" id="leaseModalTrigger" href="#modalLeasing">Edit</a>
+                {% if current_user.is_authenticated %}
+                    <a class="waves-effect waves-light btn modal-trigger red lighten-2" id="leaseModalTrigger" href="#modalLeasing">Edit</a>
+                {% else %}
+                    <a class="waves-effect waves-light btn modal-trigger red lighten-2" href="#loginModal">Edit</a>
+                {% endif %}
             </form>
         </div>
     </div>
@@ -174,7 +178,7 @@
             var periodPayment = costPeriod + residual
             var monthlyPayment = (periodPayment / leaseDuration) + taxPrice + (milesPerYear * 0.05)
 
-            return monthlyPayment.toFixed(2)
+            return monthlyPayment.toFixed(0)
         }
     })
 </script>
