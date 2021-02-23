@@ -64,7 +64,7 @@
     </div>
     <div class="row">
         <div class="col l6"></div>
-        <div class="col l6">
+        <div class="col s12 l6">
             <h5>Monthly Payment</h5>
             <span id="monthlyPaymentValue"></span>
             <form action="" method="post">
@@ -85,18 +85,32 @@
                 <input type="range" id="milesPerYear" name="milesPerYear" min="5000" max="50000" step="2500"
                     value="10000" />
                 </p>
-                <a class="waves-effect waves-light btn modal-trigger red lighten-2" href="#modalLeasing">Edit</a>
+                <a class="waves-effect waves-light btn modal-trigger red lighten-2" id="leaseModalTrigger" href="#modalLeasing">Edit</a>
             </form>
         </div>
     </div>
 </div>
 <div id="modalLeasing" class="modal">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Finalize</a>
+    <h4>Lease Options</h4>
+        <form method="post">
+        {% csrf_token %}
+        <label for="start_date">Start date</label>
+        <input type="text" name="start_date" class="datepicker" value="{{today}}">
+        <label for="end_date">End date</label>
+        <input type="text" name="end_date" readonly="readonly">
+        <label for="down_payment">Down Payment</label>
+        <input type="text" name="down_payment" readonly="readonly">
+        <label for="monthly_price">Monthly Price</label>
+        <input type="text" name="monthly_price" readonly="readonly">
+        <label for="car">Car</label>
+        <input type="text" name="car" value="{{car}}" readonly="readonly">
+        <label for="customer">Customer</label>
+        <input type="text" name="customer" value="{{current_user}}" readonly="readonly">
+        <div class="form-actions">
+            <button class="btn waves-effect waves-light red lighten-2" type="submit" name="action">Finalize</button>
+        </div>
+      </form>
     </div>
   </div>
 <script>
@@ -123,6 +137,25 @@
             document.getElementById('monthlyPaymentValue').innerHTML = calculateMonthlyPayment() + " GBP/Month"
         })
 
+        $('#leaseModalTrigger').on('click', function(){
+            // Value of end_date should be lease duration months from start date
+            $('input[name="end_date"]').val()
+
+            // Values are taken from price calculator
+            $('input[name="down_payment"]').val($('#downPayment').val())
+            $('input[name="monthly_price"]').val(calculateMonthlyPayment())
+
+            var dt = new Date($('input[name="start_date"]').val())
+            var ndt = new Date(dt.setMonth(dt.getMonth() + 1 + Number($('#leaseDuration').val())))
+            $('input[name="end_date"]').val(dt.getFullYear() + "/" + dt.getMonth() + "/" + dt.getDate())
+        })
+
+        $('input[name="start_date"]').on('change', function(){
+            var dt = new Date($('input[name="start_date"]').val())
+            var ndt = new Date(dt.setMonth(dt.getMonth() + 1 + Number($('#leaseDuration').val())))
+            $('input[name="end_date"]').val(dt.getFullYear() + "/" + dt.getMonth() + "/" + dt.getDate())
+        })
+
         function calculateMonthlyPayment() {
             var downPayment = $('#downPayment').val()
             var leaseDuration = $('#leaseDuration').val()
@@ -137,8 +170,9 @@
             var periodPayment = costPeriod + residual
             var monthlyPayment = (periodPayment / leaseDuration) + taxPrice + (milesPerYear * 0.05)
 
-            return monthlyPayment
+            return monthlyPayment.toFixed(2)
         }
     })
 </script>
+<script>$(document).ready(function(){$('.datepicker').datepicker({format: 'yyyy/m/d', container: 'body'})})</script>
 {% endblock 'content' %}

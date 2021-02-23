@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile, PrivateLease, CompanyLease, Company
-from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, PrivateLeasingForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
+from datetime import date
 
 # Create your views here.
 
@@ -67,13 +68,27 @@ def contact(request):
 
 def car(request, car_id):
     car = Car.objects.get(id=car_id)
+    currentUser = request.user
+    today = date.today()
+    todayFormatted = today.strftime("%Y/%m/%d")
+    if request.method == 'POST':
+        privateLeasingForm = PrivateLeasingForm(request.POST)
+        if privateLeasingForm.is_valid():
+            leaseStartDate = privateLeasingForm.cleaned_data['start_date']
+            leaseEndDate = privateLeasingForm.cleaned_data['end_date']
+            leaseDownpayment = privateLeasingForm.cleaned_data['down_payment']
+            leaseMonthlyPrice = privateLeasingForm.cleaned_data['monthly_price']
+
     return render(request=request,
                   template_name='main/cars/car_details.html',
                   context={'car': car,
                            'loginForm': LoginForm,
                            'username': request.user.username,
                            'registerUser': NewUserForm,
-                           'registerProfile': RegisterProfileForm, })
+                           'registerProfile': RegisterProfileForm,
+                           'privateLeasingForm': PrivateLeasingForm,
+                           'today': todayFormatted,
+                           'current_user': currentUser})
 
 
 def profilePage(request):
@@ -88,13 +103,13 @@ def profilePage(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
         userCompanies = Company.objects.filter(contactPerson=request.user.id)
-    return render(request=request, 
-                  template_name='main/profile_page.html', 
+    return render(request=request,
+                  template_name='main/profile_page.html',
                   context={'user_form': user_form,
                            'profile_form': profile_form,
                            'privateLeases': PrivateLease.objects.filter(leaseCustomer=request.user),
                            'companyLeases': CompanyLease.objects.filter(leaseCustomerCompany__in=userCompanies),
-    })
+                           })
 
 
 def login_request(request):

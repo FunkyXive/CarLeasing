@@ -55,3 +55,12 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ('profilePhoneNumber', 'profileCprNumber',
                   'profileAddress', 'profileCity', 'profilePostalCode')
+
+
+class PrivateLeasingForm(forms.Form):
+    start_date = forms.DateField(required=True, widget=DateInput())
+    end_date = forms.DateField(required=True)
+    down_payment = forms.DecimalField(required=True)
+    monthly_price = forms.DecimalField(required=True)
+    car = forms.CharField(required=True)
+    customer = forms.CharField(required=True)
