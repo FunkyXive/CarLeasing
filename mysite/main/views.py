@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile, PrivateLease, CompanyLease, Company
-from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, CompanyForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, CompanyForm, PrivateLeasingForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
+from datetime import date
 
 # Create your views here.
 
@@ -67,19 +68,33 @@ def contact(request):
 
 def car(request, car_id):
     car = Car.objects.get(id=car_id)
+    currentUser = request.user
+    today = date.today()
+    todayFormatted = today.strftime("%Y/%m/%d")
+    if request.method == 'POST':
+        privateLeasingForm = PrivateLeasingForm(request.POST)
+        if privateLeasingForm.is_valid():
+            leaseStartDate = privateLeasingForm.cleaned_data['start_date']
+            leaseEndDate = privateLeasingForm.cleaned_data['end_date']
+            leaseDownpayment = privateLeasingForm.cleaned_data['down_payment']
+            leaseMonthlyPrice = privateLeasingForm.cleaned_data['monthly_price']
+
     return render(request=request,
                   template_name='main/cars/car_details.html',
                   context={'car': car,
                            'loginForm': LoginForm,
                            'username': request.user.username,
                            'registerUser': NewUserForm,
-                           'registerProfile': RegisterProfileForm, })
+                           'registerProfile': RegisterProfileForm,
+                           'privateLeasingForm': PrivateLeasingForm,
+                           'today': todayFormatted,
+                           'current_user': currentUser})
 
 
 def profile_page(request):
     userCompanies = []
     if request.method == 'POST':
-        #user = User.objects.get(id=user_id)
+        # user = User.objects.get(id=user_id)
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
         user_form.save()
@@ -88,8 +103,8 @@ def profile_page(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
         userCompanies = Company.objects.filter(contactPerson=request.user.id)
-    return render(request=request, 
-                  template_name='main/profile_page.html', 
+    return render(request=request,
+                  template_name='main/profile_page.html',
                   context={'user_form': user_form,
                            'profile_form': profile_form,
                            'privateLeases': PrivateLease.objects.filter(leaseCustomer=request.user),
@@ -97,24 +112,29 @@ def profile_page(request):
                            'userCompanies': userCompanies,
                            'companyForm': CompanyForm,
     })
+
+
 def register_company(request):
     form = CompanyForm(request.POST)
-    #print(form.errors.as_text())
+    # print(form.errors.as_text())
     if request.method == 'POST':
         if form.is_valid():
             form.save()
         else:
             print(form.errors.as_text())
             messages.error(request, form.errors.as_data())
-    
+
     return redirect('main:profile_page')
+                           })
+
+
 def login_request(request):
     if request.method == 'POST':
-        form = LoginForm(request=request, data=request.POST)
+        form=LoginForm(request = request, data = request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            username=form.cleaned_data.get('username')
+            password=form.cleaned_data.get('password')
+            user=authenticate(username = username, password = password)
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Logged in: {username}")
@@ -133,18 +153,18 @@ def logout_request(request):
 
 def register(request):
     if request.method == 'POST':
-        userForm = NewUserForm(request.POST)
-        profileForm = RegisterProfileForm(request.POST)
+        userForm=NewUserForm(request.POST)
+        profileForm=RegisterProfileForm(request.POST)
         print(userForm.errors.as_data())
         if userForm.is_valid() and profileForm.is_valid():
-            user = userForm.save()
-            user.profile.profilePhoneNumber = request.POST['profilePhoneNumber']
-            user.profile.profileCprNumber = request.POST['profileCprNumber']
-            user.profile.profileAddress = request.POST['profileAddress']
-            user.profile.profileCity = request.POST['profileCity']
-            user.profile.profilePostalCode = request.POST['profilePostalCode']
+            user=userForm.save()
+            user.profile.profilePhoneNumber=request.POST['profilePhoneNumber']
+            user.profile.profileCprNumber=request.POST['profileCprNumber']
+            user.profile.profileAddress=request.POST['profileAddress']
+            user.profile.profileCity=request.POST['profileCity']
+            user.profile.profilePostalCode=request.POST['profilePostalCode']
             user.save()
-            username = userForm.cleaned_data.get('username')
+            username=userForm.cleaned_data.get('username')
             login(request, user)
 
             messages.success(request, f"New account created: {username}")
@@ -156,8 +176,7 @@ def register(request):
                     request, f"{msg}: {userForm.error_messages[msg]}")
             return redirect('main:homepage')
 
-    form = UserCreationForm
-    return render(request=request,
-                  template_name='main:homepage',
-                  context={'form': form, 'loginForm': LoginForm})
-
+    form=UserCreationForm
+    return render(request = request,
+                  template_name = 'main:homepage',
+                  context = {'form': form, 'loginForm': LoginForm})
