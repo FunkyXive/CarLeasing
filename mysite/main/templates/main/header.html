@@ -34,7 +34,7 @@
                         <li><a href="admin"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
                         <li><a href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         {% elif user.is_authenticated %}
-                        <li><a href="{% url 'main:profilePage' %}"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                        <li><a href="{% url 'main:profile_page' %}"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
                         <li><a href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         {% else %}
                         <li><a class="waves-effect waves-light modal-trigger" href="#loginModal"><i class="fas fa-sign-in-alt"></i> Log In</a></li>

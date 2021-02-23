@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile, PrivateLease, CompanyLease, Company
-from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, CompanyForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -76,7 +76,7 @@ def car(request, car_id):
                            'registerProfile': RegisterProfileForm, })
 
 
-def profilePage(request):
+def profile_page(request):
     userCompanies = []
     if request.method == 'POST':
         #user = User.objects.get(id=user_id)
@@ -94,9 +94,17 @@ def profilePage(request):
                            'profile_form': profile_form,
                            'privateLeases': PrivateLease.objects.filter(leaseCustomer=request.user),
                            'companyLeases': CompanyLease.objects.filter(leaseCustomerCompany__in=userCompanies),
+                           'userCompanies': userCompanies,
+                           'companyForm': CompanyForm,
     })
-
-
+def register_company(request):
+    form = CompanyForm(request.POST)
+    print(form, "pik")
+    if request.method == 'POST':
+        if form.is_valid():
+            print(form, "yeet")
+    
+    return redirect('main:profile_page')
 def login_request(request):
     if request.method == 'POST':
         form = LoginForm(request=request, data=request.POST)
@@ -149,3 +157,4 @@ def register(request):
     return render(request=request,
                   template_name='main:homepage',
                   context={'form': form, 'loginForm': LoginForm})
+

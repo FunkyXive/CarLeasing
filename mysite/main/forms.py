@@ -55,3 +55,10 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ('profilePhoneNumber', 'profileCprNumber',
                   'profileAddress', 'profileCity', 'profilePostalCode')
+
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ('contactPerson', 'companyName', 'companyAddress', 'companyCity',
+                  'companyPostalCode', 'cvrNumber')
