@@ -67,7 +67,7 @@
         <div class="col s12 l6">
             <h5>Monthly Payment</h5>
             <span id="monthlyPaymentValue"></span>
-            <form action="" method="post">
+            <form>
                 <label for="downPayment">Down Payment</label>
                 <p class="range-field">
                 <div class="right-align"><span id="downPaymentValue"></span></div>
@@ -93,7 +93,7 @@
 <div id="modalLeasing" class="modal">
     <div class="modal-content">
     <h4>Lease Options</h4>
-        <form method="post">
+        <form method="POST">
         {% csrf_token %}
         <label for="start_date">Start date</label>
         <input type="text" name="start_date" class="datepicker" value="{{today}}">
@@ -103,6 +103,8 @@
         <input type="text" name="down_payment" readonly="readonly">
         <label for="monthly_price">Monthly Price</label>
         <input type="text" name="monthly_price" readonly="readonly">
+        <label for="miles_per_year">Miles Per Year</label>
+        <input type="text" name="miles_per_year" readonly="readonly">
         <label for="car">Car</label>
         <input type="text" name="car" value="{{car}}" readonly="readonly">
         <label for="customer">Customer</label>
@@ -138,22 +140,24 @@
         })
 
         $('#leaseModalTrigger').on('click', function(){
-            // Value of end_date should be lease duration months from start date
-            $('input[name="end_date"]').val()
-
             // Values are taken from price calculator
             $('input[name="down_payment"]').val($('#downPayment').val())
             $('input[name="monthly_price"]').val(calculateMonthlyPayment())
+            $('input[name="miles_per_year"]').val($('#milesPerYear').val())
 
             var dt = new Date($('input[name="start_date"]').val())
-            var ndt = new Date(dt.setMonth(dt.getMonth() + 1 + Number($('#leaseDuration').val())))
-            $('input[name="end_date"]').val(dt.getFullYear() + "/" + dt.getMonth() + "/" + dt.getDate())
+            var ndt = new Date(dt.setMonth(dt.getMonth() + Number($('#leaseDuration').val())))
+            var dateString = ndt.toISOString().split('T')[0]
+            
+            $('input[name="end_date"]').val(dateString)
         })
 
         $('input[name="start_date"]').on('change', function(){
             var dt = new Date($('input[name="start_date"]').val())
-            var ndt = new Date(dt.setMonth(dt.getMonth() + 1 + Number($('#leaseDuration').val())))
-            $('input[name="end_date"]').val(dt.getFullYear() + "/" + dt.getMonth() + "/" + dt.getDate())
+            var ndt = new Date(dt.setMonth(dt.getMonth() + Number($('#leaseDuration').val())))
+            var dateString = ndt.toISOString().split('T')[0]
+            
+            $('input[name="end_date"]').val(dateString)
         })
 
         function calculateMonthlyPayment() {
@@ -174,5 +178,5 @@
         }
     })
 </script>
-<script>$(document).ready(function(){$('.datepicker').datepicker({format: 'yyyy/m/d', container: 'body'})})</script>
+<script>$(document).ready(function(){$('.datepicker').datepicker({format: 'yyyy-mm-dd', container: 'body'})})</script>
 {% endblock 'content' %}

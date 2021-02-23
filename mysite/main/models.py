@@ -121,6 +121,7 @@ class PrivateLease(models.Model):
     leaseMonthlyPrice = DecimalField(max_digits=10, decimal_places=2)
     leaseCar = OneToOneField(Car, on_delete=CASCADE)
     leaseCustomer = ForeignKey(User, on_delete=CASCADE)
+    leaseMilesPerYear = IntegerField()
     contract = models.FileField(upload_to="contracts")
 
     def __str__(self):
@@ -134,6 +135,7 @@ class CompanyLease(models.Model):
     leaseMonthlyPrice = DecimalField(max_digits=10, decimal_places=2)
     leaseCar = OneToOneField(Car, on_delete=CASCADE)
     leaseCustomerCompany = ForeignKey(Company, on_delete=CASCADE)
+    leaseMilesPerYear = IntegerField()
     contract = models.FileField(upload_to="contracts")
 
     def __str__(self):

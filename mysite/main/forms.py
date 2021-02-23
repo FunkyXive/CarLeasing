@@ -62,5 +62,6 @@ class PrivateLeasingForm(forms.Form):
     end_date = forms.DateField(required=True)
     down_payment = forms.DecimalField(required=True)
     monthly_price = forms.DecimalField(required=True)
+    miles_per_year = forms.IntegerField(required=True)
     car = forms.CharField(required=True)
     customer = forms.CharField(required=True)
