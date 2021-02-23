@@ -3,7 +3,7 @@
 {% block 'content' %}
 <div class="container">
     <div class="row">
-        <div class="col s4">
+        <div class="col s3">
             <h4>Your Profile</h5>
             <form method="post">
                 {% csrf_token %} 
@@ -12,11 +12,33 @@
                 <button class="" type="submit">Save changes</button>
             </form>
         </div>
-        <div class="col s2 offset-s1">
+        <div class="col s3 offset-s1">
             <h4>Your Companies</h4>
             <ul class="collection">
                 {% for userCompany in userCompanies %}
-                <li class="collection-item">{{userCompany.companyName}}</li>
+                <li class="collection-item">{{userCompany.companyName}}<div class="right-align"><a href="#{{userCompany.companyName}}{{userCompany.id}}" class="waves-effect red lighten-2 waves-light btn modal-trigger"><i class="fas fa-pencil-alt"></i></a></div></li>
+                <div id="{{userCompany.companyName}}{{userCompany.id}}" class="modal">
+                    <div class="modal-content">
+                        <form method="POST" action="/update_company">
+                            <h4>{{userCompany.companyName}}</h4>
+                            {% csrf_token %}
+                            <input name="contactPerson" value="{{user.id}}" type="hidden" readonly="readonly">
+                            <label>Company Name:</label><br>
+                            <input type="text" name="companyName" value="{{userCompany.companyName}}">
+                            <label>Address</label><br>
+                            <input type="text" name="companyAddress" value="{{userCompany.companyAddress}}">
+                            <label>City</label><br>
+                            <input type="text" name="companyCity" value="{{userCompany.companyCity}}">
+                            <label>Postal Code</label><br>
+                            <input type="number" name="companyPostalCode" value="{{userCompany.companyPostalCode}}">
+                            <label>CVR Number</label><br>
+                            <input type="number" name="cvrNumber" value="{{userCompany.cvrNumber}}">
+                            <div class="col s12">
+                                <button class="waves-effect waves-light btn red lighten-2" type="submit">Save Edit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 {% endfor %}
                 <li class="collection-item"><a href="#registerCompanyModal" class="waves-effect red lighten-2 waves-light btn modal-trigger"><i class="far fa-plus-square"></i></a></li>
             </ul>
@@ -69,6 +91,29 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div id="registerCompanyModal" class="modal">
+        <div class="modal-content">
+            <form id="registerCompanyModal" class="" method="POST" action="/register_company">
+                <h4>Register Company</h4>
+                {% csrf_token %}
+                <input name="contactPerson" value="{{user.id}}" type="hidden" readonly="readonly">
+                <label>Company Name:</label><br>
+                <input type="text" name="companyName" placeholder="Name of your company">
+                <label>Address</label><br>
+                <input type="text" name="companyAddress" placeholder="Street name and number of your company">
+                <label>City</label><br>
+                <input type="text" name="companyCity" placeholder="City of your company">
+                <label>Postal Code</label><br>
+                <input type="number" name="companyPostalCode" placeholder="Postal code of your company">
+                <label>CVR Number</label><br>
+                <input type="number" name="cvrNumber" placeholder="your company cvr number">
+                <div class="col s12">
+                    <button class="waves-effect waves-light btn red lighten-2" type="submit">Save Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <!-- Modal trigger -->
 <script>$(document).ready(function(){$('.modal').modal();});</script>
