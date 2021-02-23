@@ -57,6 +57,11 @@ class ProfileForm(forms.ModelForm):
                   'profileAddress', 'profileCity', 'profilePostalCode')
 
 
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ('contactPerson', 'companyName', 'companyAddress', 'companyCity',
+                  'companyPostalCode', 'cvrNumber')
 class PrivateLeasingForm(forms.Form):
     start_date = forms.DateField(required=True, widget=DateInput())
     end_date = forms.DateField(required=True)

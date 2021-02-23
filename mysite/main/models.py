@@ -70,8 +70,7 @@ class FuelType(models.Model):
 class Company(models.Model):
     contactPerson = ForeignKey(User, on_delete=CASCADE)
     companyName = CharField(max_length=50)
-    companyStreetName = CharField(max_length=100)
-    companyStreetNumber = IntegerField()
+    companyAddress = CharField(max_length=100)
     companyCity = CharField(max_length=20)
     companyPostalCode = IntegerField()
     cvrNumber = IntegerField()
@@ -108,7 +107,7 @@ class Car(models.Model):
     equipment = ManyToManyField(CarEquipment)
     carCurrentlyLeased = models.BooleanField(default=False)
     carImage = ManyToManyField(CarImage)
-    carNewPrice = IntegerField()
+    carNewPrice = IntegerField(default=1)
 
     def __str__(self):
         return f'{self.model}'

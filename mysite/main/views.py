@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile, PrivateLease, CompanyLease, Company
-from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, PrivateLeasingForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, CompanyForm, PrivateLeasingForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -108,10 +108,10 @@ def private_car(request, car_id):
                            'current_user': currentUser})
 
 
-def profilePage(request):
+def profile_page(request):
     userCompanies = []
     if request.method == 'POST':
-        #user = User.objects.get(id=user_id)
+        # user = User.objects.get(id=user_id)
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
         user_form.save()
@@ -126,7 +126,21 @@ def profilePage(request):
                            'profile_form': profile_form,
                            'privateLeases': PrivateLease.objects.filter(leaseCustomer=request.user),
                            'companyLeases': CompanyLease.objects.filter(leaseCustomerCompany__in=userCompanies),
-                           })
+                           'userCompanies': userCompanies,
+                           'companyForm': CompanyForm})
+
+
+def register_company(request):
+    form = CompanyForm(request.POST)
+    # print(form.errors.as_text())
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors.as_text())
+            messages.error(request, form.errors.as_data())
+
+    return redirect('main:profile_page')
 
 
 def login_request(request):
