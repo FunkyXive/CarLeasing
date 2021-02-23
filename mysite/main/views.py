@@ -110,8 +110,7 @@ def profile_page(request):
                            'privateLeases': PrivateLease.objects.filter(leaseCustomer=request.user),
                            'companyLeases': CompanyLease.objects.filter(leaseCustomerCompany__in=userCompanies),
                            'userCompanies': userCompanies,
-                           'companyForm': CompanyForm,
-    })
+                           'companyForm': CompanyForm})
 
 
 def register_company(request):
@@ -125,16 +124,15 @@ def register_company(request):
             messages.error(request, form.errors.as_data())
 
     return redirect('main:profile_page')
-                           })
 
 
 def login_request(request):
     if request.method == 'POST':
-        form=LoginForm(request = request, data = request.POST)
+        form = LoginForm(request=request, data=request.POST)
         if form.is_valid():
-            username=form.cleaned_data.get('username')
-            password=form.cleaned_data.get('password')
-            user=authenticate(username = username, password = password)
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Logged in: {username}")
@@ -153,18 +151,18 @@ def logout_request(request):
 
 def register(request):
     if request.method == 'POST':
-        userForm=NewUserForm(request.POST)
-        profileForm=RegisterProfileForm(request.POST)
+        userForm = NewUserForm(request.POST)
+        profileForm = RegisterProfileForm(request.POST)
         print(userForm.errors.as_data())
         if userForm.is_valid() and profileForm.is_valid():
-            user=userForm.save()
-            user.profile.profilePhoneNumber=request.POST['profilePhoneNumber']
-            user.profile.profileCprNumber=request.POST['profileCprNumber']
-            user.profile.profileAddress=request.POST['profileAddress']
-            user.profile.profileCity=request.POST['profileCity']
-            user.profile.profilePostalCode=request.POST['profilePostalCode']
+            user = userForm.save()
+            user.profile.profilePhoneNumber = request.POST['profilePhoneNumber']
+            user.profile.profileCprNumber = request.POST['profileCprNumber']
+            user.profile.profileAddress = request.POST['profileAddress']
+            user.profile.profileCity = request.POST['profileCity']
+            user.profile.profilePostalCode = request.POST['profilePostalCode']
             user.save()
-            username=userForm.cleaned_data.get('username')
+            username = userForm.cleaned_data.get('username')
             login(request, user)
 
             messages.success(request, f"New account created: {username}")
@@ -176,7 +174,7 @@ def register(request):
                     request, f"{msg}: {userForm.error_messages[msg]}")
             return redirect('main:homepage')
 
-    form=UserCreationForm
-    return render(request = request,
-                  template_name = 'main:homepage',
-                  context = {'form': form, 'loginForm': LoginForm})
+    form = UserCreationForm
+    return render(request=request,
+                  template_name='main:homepage',
+                  context={'form': form, 'loginForm': LoginForm})
