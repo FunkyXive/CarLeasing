@@ -62,6 +62,8 @@ class CompanyForm(forms.ModelForm):
         model = Company
         fields = ('contactPerson', 'companyName', 'companyAddress', 'companyCity',
                   'companyPostalCode', 'cvrNumber')
+
+
 class PrivateLeasingForm(forms.Form):
     start_date = forms.DateField(required=True, widget=DateInput())
     end_date = forms.DateField(required=True)
@@ -70,3 +72,13 @@ class PrivateLeasingForm(forms.Form):
     miles_per_year = forms.IntegerField(required=True)
     car = forms.CharField(required=True)
     customer = forms.CharField(required=True)
+
+
+class BusinessLeasingForm(forms.Form):
+    start_date = forms.DateField(required=True, widget=DateInput())
+    end_date = forms.DateField(required=True)
+    down_payment = forms.DecimalField(required=True)
+    monthly_price = forms.DecimalField(required=True)
+    miles_per_year = forms.IntegerField(required=True)
+    car = forms.CharField(required=True)
+    company = forms.CharField(required=True)
