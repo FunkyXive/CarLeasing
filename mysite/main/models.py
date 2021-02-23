@@ -108,6 +108,8 @@ class Car(models.Model):
     carCurrentlyLeased = models.BooleanField(default=False)
     carImage = ManyToManyField(CarImage)
     carNewPrice = IntegerField(default=1)
+    carReadyForBusinessLeasing = models.BooleanField(default=False)
+    carReadyForPrivateLeasing = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.model}'

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Car, User, Profile, PrivateLease, CompanyLease, Company
-from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, CompanyForm, PrivateLeasingForm
+from .forms import LoginForm, NewUserForm, RegisterProfileForm, UserForm, ProfileForm, ContactForm, CompanyForm, PrivateLeasingForm, BusinessLeasingForm
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -25,7 +25,7 @@ def homepage(request):
 def private_leasing(request):
     return render(request=request,
                   template_name='main/private_leasing.html',
-                  context={'cars': Car.objects.all,
+                  context={'cars': Car.objects.filter(carReadyForPrivateLeasing=True),
                            'loginForm': LoginForm,
                            'username': request.user.username,
                            'registerUser': NewUserForm,
@@ -35,7 +35,8 @@ def private_leasing(request):
 def business_leasing(request):
     return render(request=request,
                   template_name='main/business_leasing.html',
-                  context={'loginForm': LoginForm,
+                  context={'cars': Car.objects.filter(carReadyForBusinessLeasing=True),
+                           'loginForm': LoginForm,
                            'username': request.user.username,
                            'registerUser': NewUserForm,
                            'registerProfile': RegisterProfileForm, })
@@ -66,6 +67,47 @@ def contact(request):
                            'contact_form': contact_form})
 
 
+def business_car(request, car_id):
+    car = Car.objects.get(id=car_id)
+    currentUser = request.user
+    customerCompanies = Company.objects.filter(contactPerson=currentUser)
+    today = date.today()
+    todayFormatted = today.strftime("%Y-%m-%d")
+    if request.method == 'POST':
+        businessLeasingForm = BusinessLeasingForm(request.POST)
+        print(businessLeasingForm.errors.as_data())
+        if businessLeasingForm.is_valid():
+            leaseStartDate = businessLeasingForm.cleaned_data['start_date']
+            leaseEndDate = businessLeasingForm.cleaned_data['end_date']
+            leaseDownpayment = businessLeasingForm.cleaned_data['down_payment']
+            leaseMonthlyPrice = businessLeasingForm.cleaned_data['monthly_price']
+            leaseMilesPerYear = businessLeasingForm.cleaned_data['miles_per_year']
+            leaseCar = car
+            leaseCompany = currentUser
+
+            newBusinessLease = CompanyLease(leaseStartDate=leaseStartDate, leaseEndDate=leaseEndDate, leaseDownpayment=leaseDownpayment,
+                                            leaseMonthlyPrice=leaseMonthlyPrice, leaseMilesPerYear=leaseMilesPerYear, leaseCar=leaseCar, leaseCustomerCompany=leaseCompany)
+
+            newBusinessLease.save()
+
+            car.carCurrentlyLeased = True
+            car.save()
+
+            return redirect("main:profile_page")
+
+    return render(request=request,
+                  template_name='main/businesscars/car_details.html',
+                  context={'car': car,
+                           'loginForm': LoginForm,
+                           'username': request.user.username,
+                           'registerUser': NewUserForm,
+                           'registerProfile': RegisterProfileForm,
+                           'businessLeasingForm': BusinessLeasingForm,
+                           'today': todayFormatted,
+                           'current_user': currentUser,
+                           'customer_companies': customerCompanies})
+
+
 def private_car(request, car_id):
     car = Car.objects.get(id=car_id)
     currentUser = request.user
@@ -83,16 +125,13 @@ def private_car(request, car_id):
             leaseCar = car
             leaseCustomer = currentUser
 
-            #startDateSplit = leaseStartDate.split('/')
-            #endDateSplit = leaseEndDate.split('/')
-            #startDateFixed = f"{startDateSplit[0]}-{startDateSplit[1]}-{startDateSplit[2]}"
-            #endDateFixed = f"{endDateSplit[0]}-{endDateSplit[1]}-{endDateSplit[2]}"
-
             newPrivateLease = PrivateLease(leaseStartDate=leaseStartDate, leaseEndDate=leaseEndDate, leaseDownpayment=leaseDownpayment,
                                            leaseMonthlyPrice=leaseMonthlyPrice, leaseMilesPerYear=leaseMilesPerYear, leaseCar=leaseCar, leaseCustomer=leaseCustomer)
 
             newPrivateLease.save()
+
             car.carCurrentlyLeased = True
+            car.save()
 
             return redirect("main:profile_page")
 
