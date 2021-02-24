@@ -25,7 +25,7 @@ SECRET_KEY = 'pqt_-@szfq&*u-95q&cw8nid81yx1c8*^q28w-*agr1vh7m@w#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["li714-26.members.linode.com", "andreasnordenhof.com"]
 
 
 # Application definition
