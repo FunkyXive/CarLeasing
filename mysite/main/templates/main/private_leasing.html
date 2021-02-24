@@ -40,6 +40,12 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        {% if forloop.first %}
+        <div>
+        <h4 class="center-align">We currently don't have any cars ready for private leasing</h4>
+        </div>
+        {% endif %}
         {% endif %}
         {% endfor %}
     </div>

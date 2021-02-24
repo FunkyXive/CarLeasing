@@ -87,7 +87,6 @@
                 </p>
                 {% if customer_companies.all %}
                     <a class="waves-effect waves-light btn modal-trigger red lighten-2" id="leaseModalTrigger" href="#modalLeasing">Edit</a>
-                    <p>{{customer_companies}}</p>
                 {% else %}
                     <a class="waves-effect waves-light btn modal-trigger red lighten-2" href="{% url 'main:profile_page' %}">Edit</a>
                 {% endif %}
@@ -112,8 +111,13 @@
         <input type="text" name="miles_per_year" readonly="readonly">
         <label for="car">Car</label>
         <input type="text" name="car" value="{{car}}" readonly="readonly">
-        <label for="customer">Customer</label>
-        <input type="text" name="customer" value="{{current_user}}" readonly="readonly">
+        <label for="company">Company</label>
+        <select name="company">
+        {% for company in customer_companies %}
+            
+            <option value="{{company.id}}">{{company}}</option> 
+        {% endfor %}
+        </select>
         <div class="form-actions">
             <button class="btn waves-effect waves-light red lighten-2" type="submit" name="action">Finalize</button>
         </div>
@@ -183,5 +187,10 @@
         }
     })
 </script>
-<script>$(document).ready(function(){$('.datepicker').datepicker({format: 'yyyy-mm-dd', container: 'body'})})</script>
+<script>
+$(document).ready(function(){$('.datepicker').datepicker({format: 'yyyy-mm-dd', container: 'body'})})
+$(document).ready(function(){
+    $('select').formSelect();
+  });
+</script>
 {% endblock 'content' %}
