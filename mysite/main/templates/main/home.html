@@ -33,6 +33,92 @@
         </li>
     </ul>
 </div>
+<div class="container">
+    <h4>Private Leasing Options</h4><a href="{% url 'main:private_leasing' %}" class="waves-effect red lighten-2 waves-light btn"><i class="fas fa-car"></i></a>
+    <div class="row">
+        {% for car in privateCars %}
+        {% if car.carCurrentlyLeased == False %}
+        <div class="col s6 m3">
+            <div class="card">
+                <div class="card-image">
+                    {% for carImage in car.carImage.all %}
+                        {% if forloop.first %}
+                        <img src="{{carImage.image.url}}">
+                        {% endif %}
+                    {% endfor %}
+                    
+
+                </div>
+                <div class="card-content">
+                    <span class="card-title">{{car.model.modelBrand}} {{car.model.modelName}}</span>
+                </div>
+                <div class="card-action">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <p><i class="fas fa-tachometer-alt"></i> {{car.milage}} Miles</p>
+                        </div>
+                        <div class="col s12 m6">
+                            <p><i class="far fa-calendar-alt"></i> {{car.model.modelYear}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <p><i class="fas fa-gas-pump"></i> {{car.model.modelFuelType}}</p>
+                        </div>
+                        <div class="col s12 m6">
+                            <p><i class="fas fa-horse-head"></i> {{car.model.modelPower}} BHP</p>
+                        </div>
+                    </div>
+                    <a class="btn waves-effect waves-light red lighten-2" href="{% url 'main:private_cars' car.id %}">More information</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <h4>Business Leasing Options</h4><a href="{% url 'main:business_leasing' %}" class="waves-effect red lighten-2 waves-light btn"><i class="fas fa-car"></i></a>
+    <div class="row">
+        {% for car in carsForCompany %}
+        {% if car.carCurrentlyLeased == False %}
+        <div class="col s6 m3">
+            <div class="card">
+                <div class="card-image">
+                    {% for carImage in car.carImage.all %}
+                        {% if forloop.first %}
+                        <img src="{{carImage.image.url}}">
+                        {% endif %}
+                    {% endfor %}
+                    
+
+                </div>
+                <div class="card-content">
+                    <span class="card-title">{{car.model.modelBrand}} {{car.model.modelName}}</span>
+                </div>
+                <div class="card-action">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <p><i class="fas fa-tachometer-alt"></i> {{car.milage}} Miles</p>
+                        </div>
+                        <div class="col s12 m6">
+                            <p><i class="far fa-calendar-alt"></i> {{car.model.modelYear}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <p><i class="fas fa-gas-pump"></i> {{car.model.modelFuelType}}</p>
+                        </div>
+                        <div class="col s12 m6">
+                            <p><i class="fas fa-horse-head"></i> {{car.model.modelPower}} BHP</p>
+                        </div>
+                    </div>
+                    <a class="btn waves-effect waves-light red lighten-2" href="{% url 'main:private_cars' car.id %}">More information</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
 <script>
   $(document).ready(function(){
     $('.slider').slider()
