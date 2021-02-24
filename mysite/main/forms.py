@@ -81,4 +81,4 @@ class BusinessLeasingForm(forms.Form):
     monthly_price = forms.DecimalField(required=True)
     miles_per_year = forms.IntegerField(required=True)
     car = forms.CharField(required=True)
-    company = forms.CharField(required=True)
+    company = forms.CharField()

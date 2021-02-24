@@ -88,7 +88,8 @@ def business_car(request, car_id):
             leaseMonthlyPrice = businessLeasingForm.cleaned_data['monthly_price']
             leaseMilesPerYear = businessLeasingForm.cleaned_data['miles_per_year']
             leaseCar = car
-            leaseCompany = currentUser
+            print(businessLeasingForm.cleaned_data['company'])
+            leaseCompany = Company.objects.get(id=businessLeasingForm.cleaned_data['company'])
 
             newBusinessLease = CompanyLease(leaseStartDate=leaseStartDate, leaseEndDate=leaseEndDate, leaseDownpayment=leaseDownpayment,
                                             leaseMonthlyPrice=leaseMonthlyPrice, leaseMilesPerYear=leaseMilesPerYear, leaseCar=leaseCar, leaseCustomerCompany=leaseCompany)
