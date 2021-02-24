@@ -71,7 +71,7 @@
     </div>
     <h4>Business Leasing Options</h4><a href="{% url 'main:business_leasing' %}" class="waves-effect red lighten-2 waves-light btn"><i class="fas fa-car"></i></a>
     <div class="row">
-        {% for car in carsForCompany %}
+        {% for car in companyCars %}
         {% if car.carCurrentlyLeased == False %}
         <div class="col s6 m3">
             <div class="card">
