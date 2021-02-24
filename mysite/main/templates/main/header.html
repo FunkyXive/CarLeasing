@@ -25,6 +25,7 @@
             <nav>
                 <div class="nav-wrapper">
                     <a href="{% url 'main:homepage' %}" class="brand-logo"><img id="navlogo" src="{% static 'img/a-m_leasing.png' %}"></a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                         <li><a class="waves-effect waves-light" href="{% url 'main:homepage' %}"><i class="fas fa-home"></i> Home</a></li>
                         <li><a class="waves-effect waves-light" href="{% url 'main:private_leasing' %}"><i class="fas fa-car-side"></i> Private Leasing</a></li>
@@ -42,6 +43,22 @@
                     </ul>
                 </div>
             </nav>
+            <ul class="sidenav" id="mobile-demo">
+                <li><a class="waves-effect waves-light" href="{% url 'main:homepage' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="waves-effect waves-light" href="{% url 'main:private_leasing' %}"><i class="fas fa-car-side"></i> Private Leasing</a></li>
+                <li><a class="waves-effect waves-light" href="{% url 'main:business_leasing' %}"><i class="fas fa-truck"></i> Business Leasing</a></li>
+                <li><a class="waves-effect waves-light" href="{% url 'main:contact' %}"><i class="fas fa-phone"></i> Contact Us</a></li>
+                {% if user.is_authenticated and user.is_superuser %}
+                <li><a class="waves-effect waves-light" href="admin"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                <li><a class="waves-effect waves-light" href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                {% elif user.is_authenticated %}
+                <li><a class="waves-effect waves-light" href="{% url 'main:profile_page' %}"><i class="fas fa-user"></i> {{user.username|capfirst}}</a></li>
+                <li><a class="waves-effect waves-light" href="{% url 'main:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                {% else %}
+                <li><a class="waves-effect waves-light modal-trigger" href="#loginModal"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+                {% endif %}
+            </ul>
+
             <div id="loginModal" class="modal">
                 <div class="modal-content">
                     <form id="login" class="" method="POST" action="/login">
@@ -101,7 +118,12 @@
                 </div>
             </div>
         </footer>
-        <script>$(document).ready(function() { $("#navlogo").css("height", $(".nav-wrapper").height()); });</script>
+        <script>
+        $(document).ready(function() { $("#navlogo").css("height", $(".nav-wrapper").height()); });
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
+        });
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </body>
 </html>
