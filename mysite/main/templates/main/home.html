@@ -34,7 +34,7 @@
     </ul>
 </div>
 <div class="container">
-    <h4>Private Leasing Options</h4><a href="{% url 'main:private_leasing' %}" class="waves-effect red lighten-2 waves-light btn"><i class="fas fa-car"></i></a>
+    <h4 style="display: inline-block;">Private Leasing Options</h4><a style="display: inline-block;" href="{% url 'main:private_leasing' %}" class="right-align waves-effect red lighten-2 waves-light btn"><i class="fas fa-car"></i></a>
     <div class="row">
         {% for car in privateCars %}
         {% if car.carCurrentlyLeased == False %}
