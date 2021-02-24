@@ -12,6 +12,9 @@ from datetime import date
 
 
 def homepage(request):
+    carsForPrivate = Car.objects.filter(carReadyForPrivateLeasing=True).order_by('-carNewPrice')[:4]
+    carsForCompany = Car.objects.filter(carReadyForBusinessLeasing=True).order_by('-carNewPrice')[:4]
+    print(carsForPrivate)
     return render(request=request,
                   template_name='main/home.html',
                   context={'loginForm': LoginForm,
@@ -19,6 +22,8 @@ def homepage(request):
                            'user_id': request.user.id,
                            'registerUser': NewUserForm,
                            'registerProfile': RegisterProfileForm,
+                           'privateCars': carsForPrivate,
+                           'companyCars': carsForCompany,
                            })
 
 
