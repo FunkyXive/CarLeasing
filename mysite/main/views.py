@@ -75,11 +75,11 @@ def contact(request):
 
 def business_car(request, car_id):
     car = Car.objects.get(id=car_id)
-    currentUser = request.user
     customerCompanies = Company.objects.filter(contactPerson=currentUser)
     today = date.today()
     todayFormatted = today.strftime("%Y-%m-%d")
     if request.method == 'POST':
+        currentUser = request.user
         businessLeasingForm = BusinessLeasingForm(request.POST)
         print(businessLeasingForm.errors.as_data())
         if businessLeasingForm.is_valid():
