@@ -12,7 +12,6 @@ urlpatterns = [
     path("private_leasing", views.private_leasing, name="private_leasing"),
     path("business_leasing", views.business_leasing, name="business_leasing"),
     path("contact", views.contact, name="contact"),
-    path("profilePage", views.profilePage, name="profilePage"),
     path("private_cars/<int:car_id>", views.private_car, name="private_cars"),
     path("business_cars/<int:car_id>", views.business_car, name="business_cars"),
     path("profile_page", views.profile_page, name="profile_page"),
